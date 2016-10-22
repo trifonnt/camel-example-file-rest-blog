@@ -16,36 +16,41 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package com.fusesource.samples;
+package com.fusesource.samples.resource;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import com.fusesource.samples.model.Customer;
 
 @Path("/customerservice/")
 public class CustomerServiceResource {
 
-    // NOTE: The instance member variables will not be available to the
-    // Camel Exchange. They must be used as method parameters for them to
-    // be made available
-    @Context
-    private UriInfo uriInfo;
+	// NOTE: The instance member variables will not be available to the
+	// Camel Exchange. They must be used as method parameters for them to be made available
+	@Context
+	private UriInfo uriInfo;
 
-    public CustomerServiceResource() {
-    }
 
-    @GET
-    @Path("/customers/{id}/")
-    @Produces("text/xml")
-    public Customer getCustomer(@PathParam("id") String id) {
-        return null;
-    }
+	public CustomerServiceResource() {
+	}
 
-    @PUT
-    @Path("/customers/")
-    public Response updateCustomer(Customer customer) {
-        return null;
-    }
+	@GET
+	@Path("/customers/{id}/")
+	@Produces("text/xml")
+	public Customer getCustomer(@PathParam("id") String id) {
+		return null;
+	}
+
+	@PUT
+	@Path("/customers/")
+	public Response updateCustomer(Customer customer) {
+		return null;
+	}
 }
