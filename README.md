@@ -4,7 +4,9 @@ Then point your browser or favorite HTTP tool to the endpoint:
 > curl http://localhost:9090/route/customerservice/customers/123
 
 Expected response:
+```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?><Customer><id>123</id><name>John</name></Customer>
+```
 
 
 File REST Blog
@@ -25,7 +27,7 @@ We will be using Mediation Router to help write a simple integration between a R
 
 To get started, let's focus on how to set up the REST endpoint. To do so, you would create a JAX-RS resource that describes the java methods that will act as REST endpoints. This sample code requires familiarity with [Java API for RESTful Web Services][9] aka JAX-RS. For those unfamiliar, here are some [great tutorials to follow along][10] that help to understand JAX-RS.
 
-[java]
+```java
 @Path("/customerservice/")
 public class CustomerServiceResource {
 
@@ -51,45 +53,45 @@ public class CustomerServiceResource {
         return null;
     }
 }
-[/java]
+```
 
 As you can see, the annotations are the JAX-RS annotations that describe the operations, HTTP methods, and mime-types involved with the REST endpoint. Notice, the return values are all null as this class will not actually be used to handle the requests that come in to the endpoint; the Mediation Router routes will be responsible for processing and responding. Note, however, that instance members are not available to the Mediation Router exchanges, i.e., any instance members injected via the JAX-RS @Context annotations will not be available. To make them available, add them as parameters to your methods.
 
 Declaring the CXF-RS endpoint with Mediation Router can be done one of two ways: Directly in the endpoint configuration like this:
 
-[java]
+```java
 from("cxfrs://http://localhost:9090/route?resourceClasses=com.fusesource.samples.CustomerServiceResource")
-[/java]
+```
 
 
 Creating it directly in the configuration requires less xml configuration but offers limited flexibility. Another option is creating a separate bean that's responsible for the endpoint and then referencing it within the endpoint configuration:
 
-[java]
+```java
 from("cxfrs:bean:rsServer")
-[/java]
+```
 
 The bean *rsServer* should be defined in the camel context. An example:
 
-[xml]
+```xml
 <cxf:rsServer id="rsServer" address="http://localhost:9090/route"
               serviceClass="com.fusesource.samples.CustomerServiceResource"/>
-[/xml]
+```
 
 This approach allows you to decouple the endpoint configuration and allows to be quicker and less verbose in the endpoint configuration. Both options are shown in the sample code, although the first option is used.
 
 That's all the configuration required to expose the REST endpoint with Mediation Router. Fairly simple. The next step is to consume a file from the file system based on what comes in from the REST endpoint. The contents of the file will be returned to the client of the REST call. To do this, we use the [camel-file][12] component and enrich the Exchange with a [pollEnrich][13] call in the DSL:
 
-[java]
+```java
 .setHeader(Exchange.FILE_NAME, simple("test-${body}.xml"))
 .pollEnrich("file:src/data?noop=true", 1000, new CustomerEnricher())
-[/java]
+```
 
 We cannot use any dynamic expressions in the pollEnrich call, so we set a header that the file component understands before we do the enrichment. In this case, the body of the REST message is an identifier that can be used to template the file-system resource.
 
 Lastly, we can attach some additional processing to the route:
-[java]
+```java
 .process(new CustomerServiceProcessor())
-[/java]
+```
 
 The intent of the example, as described above, is to show how to configure the endpoint and attach it to further Mediation Router processing. Note, the Message Exchange Pattern (MEP) for the REST endpoint is InOut and expects a response. The example is not meant to be a complete end-to-end solution as that will vary depending on intended functionality. Please note above the links [to Roy's discussions][3] on what REST is and is not.
 
