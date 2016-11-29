@@ -12,7 +12,7 @@
 
 	<bean id="customerServProcessor" class="com.fusesource.samples.CustomerServiceProcessor" />
 -->
-	<bean id="routeBuilder" class="com.fusesource.samples.CustomerServiceRoute" />
+	<bean id="routeBuilder" class="com.fusesource.samples.route.CustomerServiceRoute" />
 
 	<camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
 		<routeBuilder ref="routeBuilder" />

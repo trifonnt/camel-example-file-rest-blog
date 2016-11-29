@@ -1,8 +1,9 @@
-package com.fusesource.samples;
+package com.fusesource.samples.route;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 
+import com.fusesource.samples.CustomerServiceProcessor;
 import com.fusesource.samples.resource.CustomerServiceResource;
 
 /**
