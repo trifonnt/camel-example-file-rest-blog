@@ -48,6 +48,7 @@ public class CustomerServiceProcessor implements Processor {
 		String operationName = inMessage.getHeader(CxfConstants.OPERATION_NAME, String.class);
 		if ("getCustomer".equalsIgnoreCase(operationName)) {
 			String id = inMessage.getBody(String.class);
+//			String id = inMessage.getHeader("OrigId", String.class);
 			LOG.info("----invoking getCustomer, Customer id is: " + id);
 
 			long idNumber = Long.parseLong(id);
