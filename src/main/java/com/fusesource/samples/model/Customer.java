@@ -23,33 +23,37 @@ import java.util.Date;
 
 @XmlRootElement(name = "Customer")
 public class Customer {
-    private long id;
-    private String name;
-    private Date lastUpdated;
 
-    public long getId() {
-        return id;
-    }
+	private long id;
+	private String name;
+	private Date lastUpdated;
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-	
 	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
-
 	public Date getLastUpdated() {
 		return lastUpdated;
 	}
-    
+
+	@Override
+	public String toString() {
+		return "Customer [id=" + id
+			+ ", name=" + name
+			+ ", lastUpdated=" + lastUpdated
+		+ "]";
+	}
 }
